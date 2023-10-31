@@ -1,7 +1,6 @@
 import requests
 
-
-WEATHER_API_KEY = '99ba78ee79a2a24bc507362c5288a81b'
+from settings import SETTINGS
 
 
 class GetWeatherRequest():
@@ -26,7 +25,7 @@ class GetWeatherRequest():
         url = 'https://api.openweathermap.org/data/2.5/weather'
         url += '?units=metric'
         url += '&q=' + city
-        url += '&appid=' + WEATHER_API_KEY
+        url += '&appid=' + SETTINGS.WEATHER_API_KEY
         return url
 
     def send_request(self, url):
@@ -37,10 +36,10 @@ class GetWeatherRequest():
         Returns:
 
         """
-        r = self.session.get(url)
-        if r.status_code != 200:
-            r.raise_for_status()
-        return r
+        request = self.session.get(url)
+        if request.status_code == 200:
+            return request
+        request.raise_for_status()
 
     def get_weather_from_response(self, response):
         """
@@ -50,8 +49,7 @@ class GetWeatherRequest():
         Returns:
 
         """
-        data = response.json()
-        return data['main']['temp']
+        return response.json()['main']['temp']
 
     def get_weather(self, city):
         """
@@ -62,13 +60,11 @@ class GetWeatherRequest():
 
         """
         url = self.get_weather_url(city)
-        r = self.send_request(url)
-        if r is None:
-            return None
-        else:
-            weather = self.get_weather_from_response(r)
+        request = self.send_request(url)
+        if request:
+            weather = self.get_weather_from_response(request)
             return weather
-
+        return
 
 class CheckCityExisting():
     """
@@ -92,7 +88,7 @@ class CheckCityExisting():
         url = 'https://api.openweathermap.org/data/2.5/weather'
         url += '?units=metric'
         url += '&q=' + city
-        url += '&appid=' + WEATHER_API_KEY
+        url += '&appid=' + SETTINGS.WEATHER_API_KEY
         return url
 
     def send_request(self, url):
@@ -103,8 +99,7 @@ class CheckCityExisting():
         Returns:
 
         """
-        r = self.session.get(url)
-        return r
+        return self.session.get(url)
 
     def check_existing(self, city):
         """
@@ -115,8 +110,7 @@ class CheckCityExisting():
 
         """
         url = self.get_weather_url(city)
-        r = self.send_request(url)
-        if r.status_code == 404:
-            return False
-        if r.status_code == 200:
+        request = self.send_request(url)
+        if request.status_code == 200:
             return True
+        return

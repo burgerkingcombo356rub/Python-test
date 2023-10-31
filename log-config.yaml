@@ -1,0 +1,18 @@
+version: 1
+
+formatters:
+  console:
+    format: ('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    formatter: console
+    stream: ext://sys.stderr
+    level: 0
+
+root:
+  handlers: [ console ]
+  level: 0
+
+disable_existing_loggers: False

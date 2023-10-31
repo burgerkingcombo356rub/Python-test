@@ -1,7 +1,12 @@
-FROM python:3.8-slim as backend
+FROM python:3.10-slim as backend
 WORKDIR /code
 
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+COPY poetry.lock pyproject.toml ./
+
+RUN pip install poetry && pip install --upgrade pip
+RUN poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi --no-root
+
 
 COPY src .
+COPY ./.env /code/settings
+COPY ./log-config.yaml /code

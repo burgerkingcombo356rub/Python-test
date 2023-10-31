@@ -3,34 +3,38 @@ version: "3.8"
 services:
   backend:
     restart: always
+    container_name: backend
     depends_on:
-      - postgres
+      - database
     build:
       context: .
       target: backend
     environment:
-      - DATABASE_HOST=postgres
-      - DATABASE_PORT=5432
-      - DATABASE_NAME=testcrt
-      - DATABASE_USER=postgres
-      - DATABASE_PASSWORD=password
-    command: "uvicorn main:app --host 0.0.0.0 --port 8000"
+      - DATABASE_HOST=${DATABASE_HOST:-database}
+      - DATABASE_PORT=${DATABASE_PORT:-5432}
+      - DATABASE_NAME=${DATABASE_NAME:-postgres}
+      - DATABASE_USER=${DATABASE_USER:-postgres}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD:-postgres}
+    command: "python main.py"
     ports:
     - 8000:8000
+    volumes:
+    - ./src/log:/code/log
     networks:
       backend:
 
-
-  postgres:
+  database:
     restart: always
-    image: postgres:13-alpine
-    container_name: postgres
+    image: postgres:13.3
+    container_name: ${DATABASE_HOST:-database}
     environment:
-      - POSTGRES_DB=testcrt
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=${DATABASE_NAME:-postgres}
+      - POSTGRES_USER=${DATABASE_USER:-postgres}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD:-postgres}
+    ports:
+      - "${DATABASE_PORT:-5432}:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./postgres_data:/var/lib/postgresql/data
     networks:
       backend:
 
