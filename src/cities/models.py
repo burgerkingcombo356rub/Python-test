@@ -25,4 +25,4 @@ class City(Base):
         return weather
 
     def __repr__(self):
-        return f'<Город "{self.name}">'
+        return f'<Город "{self.name}">' djhwjfwfwiffwfnwjfnqkwf
