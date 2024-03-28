@@ -32,4 +32,6 @@ class Settings:
             argument = int(argument)
         return argument
 
-SETTINGS = Settings()
+SETTINGS = Settings() 
+
+Afterparty with CM

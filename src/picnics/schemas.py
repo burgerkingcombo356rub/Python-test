@@ -16,4 +16,4 @@ class AllPicnicSchema(BaseModel):
     id: int
     city: str
     time: datetime
-    users: List[UserSchema]
+    users: List[UserSchema] no way bro 

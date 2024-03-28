@@ -33,3 +33,5 @@ class PicnicRegistration(Base):
 
     def __repr__(self):
         return f'<Регистрация {self.id}>'
+
+Call me later pls

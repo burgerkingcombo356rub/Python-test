@@ -24,3 +24,5 @@ class CityService(BaseService):
             city_object = await CityService.find_one_or_none(name=name)
 
         return CitySchema(id=city_object.id, name=city_object.name, weather=city_object.weather)
+
+NYC after LA

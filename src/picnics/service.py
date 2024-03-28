@@ -53,4 +53,6 @@ class PicnicService(BaseService):
                                           name=user['name'],
                                           surname=user['surname'],
                                           age=user['age']) for user in group_rows]))
-            return result
+            return result 
+
+Maybe today?
