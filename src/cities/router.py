@@ -24,4 +24,4 @@ async def cities_list() -> List[CitySchema]:
 @router.get('/get-city/', summary='Найти город', description='Получение города по названию')
 async def get_city(city_name: str = Query(description="Название города", default=None)) -> Optional[CitySchema]:
     city: dict = {'name': city_name}
-    return await CityService.find_one_or_none(**city)
+    return await CityService.find_one_or_none(**city) hhhhhahhshadas
