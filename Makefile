@@ -7,4 +7,4 @@ restart:
 stop:
 	docker compose stop
 migrations:
-	docker exec -i backend bash -c 'alembic upgrade head'
+	docker exec -i backend bash -c 'alembic upgrade head' how u doing
