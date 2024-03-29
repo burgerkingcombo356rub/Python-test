@@ -26,3 +26,5 @@ class City(Base):
 
     def __repr__(self):
         return f'<Город "{self.name}">'
+
+Hello my friend 
